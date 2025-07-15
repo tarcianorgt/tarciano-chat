@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Tarciano Chat</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Tarciano Chat 🔥</h1>
+  <form id="joinForm">
+    <input type="text" id="nickname" placeholder="Seu apelido" required>
+    <input type="text" id="room" placeholder="Nome da sala" required>
+    <button type="submit">Entrar no chat</button>
+  </form>
+
+  <script>
+    document.getElementById('joinForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const nick = document.getElementById('nickname').value;
+      const sala = document.getElementById('room').value;
+      window.location.href = `chat.html?room=${sala}&nickname=${nick}`;
+    });
+  </script>
+</body>
+</html>

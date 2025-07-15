@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat - Tarciano Chat</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <h2 id="roomTitle">Chat</h2>
+  <div id="messages"></div>
+  <form id="messageForm">
+    <input id="msgInput" autocomplete="off" placeholder="Digite sua mensagem">
+    <button>Enviar</button>
+  </form>
+
+  <script>
+    const socket = io();
+    const params = new URLSearchParams(window.location.search);
+    const room = params.get('room');
+    const nickname = params.get('nickname');
+
+    document.getElementById('roomTitle').textContent = 'Sala: ' + room;
+
+    socket.emit('joinRoom', { room, nickname });
+
+    socket.on('message', function(msg){
+      const div = document.createElement('div');
+      div.textContent = msg;
+      document.getElementById('messages').appendChild(div);
+    });
+
+    document.getElementById('messageForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const input = document.getElementById('msgInput');
+      if (input.value.trim() !== '') {
+        socket.emit('chatMessage', input.value);
+        input.value = '';
+      }
+    });
+  </script>
+</body>
+</html>
